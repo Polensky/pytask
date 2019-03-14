@@ -23,17 +23,18 @@ class PyTaskApp:
             curses.start_color()
 
         #initialise
-        self.menu = Menu()
+        self.menu = Menu(self.tasklists)
         self.content = Content()
 
         for i, tasklist in enumerate(self.tasklists):
             tasklist.set_pos(i+1, 1)
             if i == 0:
                 self.menu.addstr(*tasklist.addstr(), curses.A_REVERSE)
+                self.current_tasklist = tasklist
             else:
                 self.menu.addstr(*tasklist.addstr())
 
-        self.curs_pos = 0
+        self.is_cursor_on_menu = True
 
         stdscr.noutrefresh()
         self.menu.noutrefresh()
@@ -49,6 +50,8 @@ class PyTaskApp:
                 self.move_up()
             elif c == ord('j'):
                 self.move_down()
+            elif c == ord('\t'):
+                self.switch_window()
 
             stdscr.noutrefresh()
             self.menu.noutrefresh()
@@ -60,24 +63,40 @@ class PyTaskApp:
         curses.curs_set(1)
         curses.endwin()
 
-
     def move_up(self):
-        if self.curs_pos != 0:
-            self.menu.addstr(*self.tasklists[self.curs_pos].addstr())
-            self.curs_pos -= 1
-            tasklist = self.tasklists[self.curs_pos]
-            self.menu.move(*tasklist.get_pos())
-            self.menu.addstr(*tasklist.addstr(), curses.A_REVERSE)
-            self.content.display_tasks(tasklist.tasks)
+        if self.is_cursor_on_menu:
+            self.menu.move_up()
+            self.content.display_tasks(self.current_tasklist.tasks)
+        else:
+            if self.content.curs_pos != 0:
+                task = self.current_tasklist.tasks[self.content.curs_pos]
+                self.content.addstr(*task.addstr())
+                self.content.curs_pos -= 1
+                task = self.current_tasklist.tasks[self.content.curs_pos]
+                self.content.addstr(*task.addstr(), curses.A_REVERSE)
 
     def move_down(self):
-        if self.curs_pos != len(self.tasklists) - 1:
-            self.menu.addstr(*self.tasklists[self.curs_pos].addstr())
-            self.curs_pos += 1
-            tasklist = self.tasklists[self.curs_pos]
-            self.menu.move(*tasklist.get_pos())
-            self.menu.addstr(*tasklist.addstr(), curses.A_REVERSE)
-            self.content.display_tasks(tasklist.tasks)
+        if self.is_cursor_on_menu:
+            self.menu.move_down()
+            self.content.display_tasks(self.current_tasklist.tasks)
+        else:
+            if self.content.curs_pos != len(self.current_tasklist.tasks) - 1:
+                task = self.current_tasklist.tasks[self.content.curs_pos]
+                # lattribut y existe pas ici apparament
+                self.content.addstr(*task.addstr())
+                self.content.curs_pos += 1
+                task = self.current_tasklist.tasks[self.content.curs_pos]
+                self.content.addstr(*task.addstr(), curses.A_REVERSE)
+
+    def switch_window(self):
+        self.is_cursor_on_menu = not self.is_cursor_on_menu
+        if self.is_cursor_on_menu:
+            self.content.addstr(*self.tasklists[self.content.curs_pos].addstr())
+        else:
+            task = self.current_tasklist.tasks[0]
+            self.content.addstr(*task.addstr(), curses.A_REVERSE)
+
+
 
     def run(self):
         curses.wrapper(self.application)
