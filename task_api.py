@@ -7,6 +7,7 @@ import argparse
 import json
 import os
 from tasklist import TaskList
+from task import Task
 
 
 SCOPE = 'https://www.googleapis.com/auth/tasks'
@@ -24,32 +25,40 @@ class TaskAPI:
         self.credentials = self.storage.get()
 
         # oof
-        if not os.path.isfile('a_storage'): self.authenticate()
-        if not self.credentials.has_scopes(SCOPE): self.authenticate()
+        if not os.path.isfile('a_storage'): self._authenticate()
+        if not self.credentials.has_scopes(SCOPE): self._authenticate()
 
         self.service = build('tasks', 'v1', credentials=self.credentials)
         return self.service
 
-    def get_taskslists(self):
-        tsk_lst = self.service.tasklists().list().execute()['items']
-        l = []
-        for tasklist in tsk_lst:
-            name = tasklist['title']
-            id = tasklist['id']
-            l.append(TaskList(name, id))
-
-        return l
-
-    def authenticate(self):
+    def _authenticate(self):
         parser = argparse.ArgumentParser(parents=[tools.argparser])
         flags = parser.parse_args()
         self.credentials = tools.run_flow(self.flow, self.storage, flags)
         self.storage.put(self.credentials)
 
+    def get_taskslists(self):
+        tsk_lst = self.service.tasklists().list().execute()['items']
+        l = []
+        for tasklist in tsk_lst:
+            l_name = tasklist['title']
+            l_id = tasklist['id']
+            t = self.get_tasks(l_id)
+            l.append(TaskList(l_name, l_id, t))
+
+        return l
 
     def get_tasks(self, list_id):
-        tasks = service.tasks().list(tasklist=list_id).execute()['items']
+        tasks = self.service.tasks().list(tasklist=list_id).execute()
 
-        for task in tasks:
-            print(task)
+        if not 'items' in tasks: return None
+
+        t = []
+        for task in tasks['items']:
+            name = task['title']
+            id = task['id']
+            status = task['status']
+            t.append(Task(name, id, status))
+
+        return t
 

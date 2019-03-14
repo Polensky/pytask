@@ -1,4 +1,6 @@
 import curses
+from menu import Menu
+from content import Content
 from task_api import TaskAPI
 
 
@@ -21,10 +23,9 @@ class PyTaskApp:
             curses.start_color()
 
         #initialise
-        self.menu = curses.newwin(curses.LINES-1, 20)
-        self.content = curses.newwin(curses.LINES-1, curses.COLS-20, 0, 20)
+        self.menu = Menu()
+        self.content = Content()
 
-        self.menu.box()
         for i, tasklist in enumerate(self.tasklists):
             tasklist.set_pos(i+1, 1)
             if i == 0:
@@ -33,8 +34,6 @@ class PyTaskApp:
                 self.menu.addstr(*tasklist.addstr())
 
         self.curs_pos = 0
-
-        self.content.box()
 
         stdscr.noutrefresh()
         self.menu.noutrefresh()
@@ -69,6 +68,7 @@ class PyTaskApp:
             tasklist = self.tasklists[self.curs_pos]
             self.menu.move(*tasklist.get_pos())
             self.menu.addstr(*tasklist.addstr(), curses.A_REVERSE)
+            self.content.display_tasks(tasklist.tasks)
 
     def move_down(self):
         if self.curs_pos != len(self.tasklists) - 1:
@@ -77,6 +77,7 @@ class PyTaskApp:
             tasklist = self.tasklists[self.curs_pos]
             self.menu.move(*tasklist.get_pos())
             self.menu.addstr(*tasklist.addstr(), curses.A_REVERSE)
+            self.content.display_tasks(tasklist.tasks)
 
     def run(self):
         curses.wrapper(self.application)

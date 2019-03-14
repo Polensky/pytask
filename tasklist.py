@@ -1,8 +1,9 @@
 
 class TaskList:
-    def __init__(self, name, id):
+    def __init__(self, name, id, tasks):
         self.name = name
         self.id = id
+        self.tasks = tasks
 
 
     def set_pos(self, y, x):
