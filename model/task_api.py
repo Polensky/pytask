@@ -1,4 +1,4 @@
-from oauth2client.client import OAuth2WebServerFlow 
+from oauth2client.client import OAuth2WebServerFlow
 from oauth2client.file import Storage
 from oauth2client import tools
 from apiclient.discovery import build
@@ -6,15 +6,15 @@ import httplib2
 import argparse
 import json
 import os
-from tasklist import TaskList
-from task import Task
-
+from .tasklist import TaskList
+from .task import Task
 
 SCOPE = 'https://www.googleapis.com/auth/tasks'
 
 class TaskAPI:
     def __init__(self):
-        self.client_id = json.loads(open('client_id.json').read())
+        cwd = os.path.dirname(__file__)
+        self.client_id = json.loads(open(cwd + '/client_id.json').read())
         self.cl_id = self.client_id['installed']['client_id']
         self.cl_secret = self.client_id['installed']['client_secret']
         self.flow = OAuth2WebServerFlow(client_id=self.cl_id, client_secret=self.cl_secret, scope='https://www.googleapis.com/auth/tasks', redirect_uri='http://google.com')
