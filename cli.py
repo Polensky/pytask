@@ -18,45 +18,10 @@ class PyTaskApp:
             if c == ord('q'):
                 self.view.quit()
                 break
-            elif c == ord('k'):
-                self.move_up()
-            elif c == ord('j'):
-                self.move_down()
+            elif c == ord('k') or c == ord('j'):
+                self.view.move(c)
             elif c == ord('\t'):
-                self.switch_window()
-
-    def move_up(self):
-        if self.is_cursor_on_menu:
-            self.menu.move_up()
-            self.content.display_tasks(self.menu.current_tasklist.tasks)
-        else:
-            if self.content.curs_pos != 0:
-                task = self.current_tasklist.tasks[self.content.curs_pos]
-                self.content.addstr(*task.addstr())
-                self.content.curs_pos -= 1
-                task = self.current_tasklist.tasks[self.content.curs_pos]
-                self.content.addstr(*task.addstr(), curses.A_REVERSE)
-
-    def move_down(self):
-        if self.is_cursor_on_menu:
-            self.menu.move_down()
-            self.content.display_tasks(self.menu.current_tasklist.tasks)
-        else:
-            if self.content.curs_pos != len(self.current_tasklist.tasks) - 1:
-                task = self.current_tasklist.tasks[self.content.curs_pos]
-                # lattribut y existe pas ici apparament
-                self.content.addstr(*task.addstr())
-                self.content.curs_pos += 1
-                task = self.current_tasklist.tasks[self.content.curs_pos]
-                self.content.addstr(*task.addstr(), curses.A_REVERSE)
-
-    def switch_window(self):
-        self.is_cursor_on_menu = not self.is_cursor_on_menu
-        if self.is_cursor_on_menu:
-            self.content.addstr(*self.tasklists[self.menu.curs_pos].addstr())
-        else:
-            task = self.current_tasklist.tasks[0]
-            self.content.addstr(*task.addstr(), curses.A_REVERSE)
+                self.view.switch_window()
 
 
 
