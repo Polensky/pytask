@@ -21,7 +21,9 @@ class PyTaskApp:
             elif c == ord('k') or c == ord('j'):
                 self.view.move(c)
             elif c == ord('\t'):
-                self.view.switch_window()
+                self.view.switch_window(c)
+            elif c == ord('h') or c == ord('l'):
+                self.view.switch_window(c)
 
 
 

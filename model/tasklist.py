@@ -1,6 +1,6 @@
 class TaskList:
-    def __init__(self, name, id, tasks):
-        self.name = name
+    def __init__(self, title, id, tasks):
+        self.title = title
         self.id = id
         self.tasks = tasks
 
@@ -14,4 +14,4 @@ class TaskList:
 
 
     def addstr(self):
-        return self.y, self.x, self.name
+        return self.y, self.x, self.title
