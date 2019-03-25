@@ -1,12 +1,7 @@
-from view import Content, Menu
+from view import Content, Menu, UiList
 from enum import Enum
 import curses
 
-
-class Ui_element(Enum):
-    menu = 1
-    content = 2
-    task_content = 3
 
 class CurseView:
 
@@ -17,7 +12,6 @@ class CurseView:
         self.menu = Menu(tasklists)
         self.content = Content(tasklists[0].tasks)
         self.is_cursor_on_menu = True
-        self.focus_element = Ui_element.menu
 
         curses.doupdate()
 
