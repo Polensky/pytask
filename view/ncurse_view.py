@@ -1,7 +1,10 @@
-from view import Content, Menu, UiList
+from view import Content, Menu 
 from enum import Enum
 import curses
 
+class UI_ELEMENT(Enum):
+    menu = 1
+    content = 2
 
 class CurseView:
 
