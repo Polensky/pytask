@@ -1,4 +1,4 @@
-from view import Content, Menu 
+from view import Content, Menu, BottomText
 from enum import Enum
 import curses
 
@@ -14,6 +14,7 @@ class CurseView:
         self.stdscr.noutrefresh()
         self.menu = Menu(tasklists)
         self.content = Content(tasklists[0].tasks)
+        self.btext = BottomText()
         self.is_cursor_on_menu = True
 
         curses.doupdate()
@@ -47,6 +48,8 @@ class CurseView:
             else:
                 self.content.move_down()
 
+        self.btext.redraw()
+
 
     def switch_window(self, c):
         self.is_cursor_on_menu = not self.is_cursor_on_menu
@@ -54,6 +57,8 @@ class CurseView:
             self.content.redraw(0)
         else:
             self.content.redraw(None)
+
+        self.btext.redraw()
 
     def start_loop():
         stdscr.noutrefresh()
