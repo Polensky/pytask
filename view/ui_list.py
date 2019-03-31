@@ -14,25 +14,26 @@ class UiList:
     def move_up(self):
         if self.curs_pos != 0:
             self.curs_pos -= 1
-            self.current_tasklist = self._elements[self.curs_pos]
+            self.current_element = self._elements[self.curs_pos]
             self.redraw(self.curs_pos)
 
     def move_down(self):
         if self.curs_pos != len(self._elements) - 1:
             self.curs_pos += 1
-            self.current_tasklist = self._elements[self.curs_pos]
+            self.current_element = self._elements[self.curs_pos]
             self.redraw(self.curs_pos)
 
     def redraw(self, index):
         self._window.clear()
         self._window.box()
-        for i, element in enumerate(self._elements):
-            element.set_pos(i+1, 1)
-            if i == index:
-                self.addstr(*element.addstr(), curses.A_REVERSE)
-                self.current_element = element
-            else:
-                self.addstr(*element.addstr())
+        if self._elements:
+            for i, element in enumerate(self._elements):
+                element.set_pos(i+1, 1)
+                if i == index:
+                    self.addstr(*element.addstr(), curses.A_REVERSE)
+                    self.current_element = element
+                else:
+                    self.addstr(*element.addstr())
 
         self.noutrefresh()
         curses.doupdate()
