@@ -27,7 +27,7 @@ class UiList:
         self._window.clear()
         self._window.box()
         for i, element in enumerate(self._elements):
-            element.set_pos(i+1, 1)
+            element.pos = i+1, 1
             if i == index:
                 self.addstr(*element.addstr(), curses.A_REVERSE)
                 self.current_element = element
