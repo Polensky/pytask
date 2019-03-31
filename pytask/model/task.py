@@ -1,6 +1,5 @@
 class Task:
     def __init__(self, title, id, status,
-                 notes=None,
                  position=None,
                  completed=None,
                  updated=None,
@@ -8,11 +7,10 @@ class Task:
         self.title = title
         self.id = id
         self.status = status
-        self.postion = position
+        self.position = position
         self.completed = completed
         self.updated = updated
         self.y, self.x = 0, 0
-
 
     @property
     def pos(self):
@@ -25,6 +23,6 @@ class Task:
     def addstr(self):
         return self.y, self.x, self.title
 
-    @classmethod
-    def from_dict(cls, dictionary):
-        return cls(**dictionary)
+    @staticmethod
+    def from_dict(dictionary):
+        return Task(**dictionary)
