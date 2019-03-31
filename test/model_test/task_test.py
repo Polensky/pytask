@@ -2,7 +2,7 @@ import random
 import string
 import pytest
 
-from pytask import Task
+from pytask.model import Task
 
 
 def anyvalue(N=1, size=8):
