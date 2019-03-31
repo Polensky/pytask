@@ -4,12 +4,13 @@ class TaskList:
         self.id = id
         self.tasks = tasks
 
-    def set_pos(self, y, x):
-        self.y = y
-        self.x = x
-
-    def get_pos(self):
+    @property
+    def pos(self):
         return self.y, self.x
+
+    @pos.setter
+    def pos(self, value):
+        self.y, self.x = value
 
     def addstr(self):
         return self.y, self.x, self.title

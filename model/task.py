@@ -11,13 +11,16 @@ class Task:
         self.postion = position
         self.completed = completed
         self.updated = updated
+        self.y, self.x = 0, 0
 
-    def set_pos(self, y, x):
-        self.y = y
-        self.x = x
 
-    def get_pos(self):
+    @property
+    def pos(self):
         return self.y, self.x
+
+    @pos.setter
+    def pos(self, position):
+        self.y, self.x = position
 
     def addstr(self):
         return self.y, self.x, self.title
