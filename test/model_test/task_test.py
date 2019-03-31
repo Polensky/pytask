@@ -17,9 +17,9 @@ def test_init_minimal():
     assert task.title == title_val
     assert task.id == id_val
     assert task.status == status_val
-    assert task.position == None
-    assert task.completed == None
-    assert task.updated == None
+    assert task.position is None
+    assert task.completed is None
+    assert task.updated is None
     assert task.x == 0
     assert task.y == 0
 
@@ -57,10 +57,19 @@ def test_addstr():
     task.pos = y_val, x_val
     assert task.addstr() == (y_val, x_val, title_val)
 
+
 def test_from_dict():
     title_val, id_val, status_val, position_val, completed_val, updated_val, other_val = anyvalue(7)
 
-    d = {"title": title_val, "id": id_val, "status": status_val, "position": position_val, "completed": completed_val, "updated": updated_val, "other": other_val}
+    d = {
+         "title": title_val,
+         "id": id_val,
+         "status": status_val,
+         "position": position_val,
+         "completed": completed_val,
+         "updated": updated_val,
+         "other": other_val,
+    }
     task = Task.from_dict(d)
 
     assert task.title == title_val
@@ -75,6 +84,3 @@ def test_from_dict():
     with pytest.raises(AttributeError) as excinfo:
         task.other
     assert 'object has no attribute' in str(excinfo.value)
-
-
-
