@@ -2,7 +2,6 @@ import curses
 
 
 class UiList:
-
     def __init__(self, window, elements):
         self._window = window
         self._elements = elements
@@ -38,7 +37,5 @@ class UiList:
         self.noutrefresh()
         curses.doupdate()
 
-
     def __getattr__(self, attr_name):
         return getattr(self._window, attr_name)
-
