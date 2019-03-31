@@ -35,7 +35,7 @@ class CurseView:
         if c == ord('k'):
             if self.is_cursor_on_menu:
                 self.menu.move_up()
-                self.content.tasks = self.menu.current_tasklist.tasks
+                self.content._elements = self.menu.current_element.tasks
                 self.content.curs_pos = 0
                 self.content.redraw(None)
             else:
@@ -43,7 +43,7 @@ class CurseView:
         elif c == ord('j'):
             if self.is_cursor_on_menu:
                 self.menu.move_down()
-                self.content.tasks = self.menu.current_tasklist.tasks
+                self.content._elements = self.menu.current_element.tasks
                 self.content.curs_pos = 0
                 self.content.redraw(None)
             else:
