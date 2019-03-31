@@ -1,8 +1,8 @@
-from distutils.core import setup
+from setuptools import setup, find_packages
 
 setup(
     name='pytask',
     version='0.1',
-    packages=['pytask', ],
+    packages=find_packages(exclude=('test', )),
     long_description=open('README.md').read(),
 )
