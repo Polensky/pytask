@@ -1,5 +1,7 @@
-from view import CurseView
-from model import TaskAPI
+#!/usr/bin/env python
+
+from pytask.view import CurseView
+from pytask.model import TaskAPI
 
 
 class PyTaskApp:
