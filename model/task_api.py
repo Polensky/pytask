@@ -49,7 +49,7 @@ class TaskAPI:
                 TaskList(
                     title=tasklist['title'],
                     id=tasklist['id'],
-                    status=self.get_tasks(tasklist['id']),
+                    tasks=self.get_tasks(tasklist['id']),
                 )
             )
         return task_lists

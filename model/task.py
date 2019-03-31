@@ -3,7 +3,8 @@ class Task:
                  notes=None,
                  position=None,
                  completed=None,
-                 updated=None,):
+                 updated=None,
+                 **kwargs, ):
         self.title = title
         self.id = id
         self.status = status
