@@ -1,11 +1,8 @@
-import curses
-from view import Menu, Content
 from view import CurseView
-from model import TaskList, TaskAPI
+from model import TaskAPI
 
 
 class PyTaskApp:
-
     def __init__(self):
         self.tsk_api = TaskAPI()
         self.tsk_api.connect()
@@ -24,7 +21,6 @@ class PyTaskApp:
                 self.view.switch_window(c)
             elif c == ord('h') or c == ord('l'):
                 self.view.switch_window(c)
-
 
 
 PyTaskApp().application()

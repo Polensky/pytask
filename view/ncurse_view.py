@@ -2,12 +2,13 @@ from view import Content, Menu, BottomText
 from enum import Enum
 import curses
 
+
 class UI_ELEMENT(Enum):
     menu = 1
     content = 2
 
-class CurseView:
 
+class CurseView:
     def __init__(self, tasklists):
         curses.wrapper(self._init_curse)
 
@@ -50,7 +51,6 @@ class CurseView:
 
         self.btext.redraw()
 
-
     def switch_window(self, c):
         self.is_cursor_on_menu = not self.is_cursor_on_menu
         if not self.is_cursor_on_menu:
@@ -59,10 +59,6 @@ class CurseView:
             self.content.redraw(None)
 
         self.btext.redraw()
-
-    def start_loop():
-        stdscr.noutrefresh()
-        curses.doupdate()
 
     def quit(self):
         curses.nocbreak()
