@@ -1,3 +1,4 @@
-from .model import Task, TaskList, TaskAPI
+import model
+import view
 
-__all__ = ['Task', 'TaskList', 'TaskAPI', ]
+__all__ = ['model', 'view']

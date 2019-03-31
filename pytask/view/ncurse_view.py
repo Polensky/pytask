@@ -1,6 +1,7 @@
-from view import Content, Menu, BottomText
-from enum import Enum
 import curses
+from enum import Enum
+
+from . import Content, Menu, BottomText
 
 
 class UI_ELEMENT(Enum):

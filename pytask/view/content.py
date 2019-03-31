@@ -1,5 +1,5 @@
 import curses
-from view import UiList
+from . import UiList
 
 
 class Content(UiList):
