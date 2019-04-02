@@ -1,15 +1,11 @@
-import pytest
-
 from helper import anyvalue
 
 from pytask.model import Task, TaskList
 
 
-
 def test_init():
     title_val, id_val = anyvalue(2)
     tasks = [Task(1, 1, 1), Task(2, 2, 2), ]
-
 
     task_list = TaskList(title_val, id_val, tasks)
 
