@@ -9,4 +9,7 @@ install:
 
 script: 
   - flake8
-  - pytest
+  - pytest  --cov-report term --cov=pytask
+
+after_success:
+  - codecov
