@@ -12,3 +12,8 @@ class Record:
     @staticmethod
     def api():
         return _task_api
+
+
+    @staticmethod
+    def create(**kwargs):
+        raise NotImplementedError

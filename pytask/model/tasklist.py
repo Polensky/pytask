@@ -20,7 +20,7 @@ class Tasklist(Displayable, Record):
                 )
             )
         return tasklists
-        return super().api().get_task_lists()
+        return Tasklist.api().get_task_lists()
 
     @property
     def tasks(self):
@@ -30,3 +30,11 @@ class Tasklist(Displayable, Record):
                 return []
             self._tasks = [Task.from_dict(task) for task in tasks['items']]
         return self._tasks
+
+    @staticmethod
+    def create(title=''):
+        result = Tasklist.api().create_tasklist({"title": title})
+        return Tasklist(
+            title=result['title'],
+            id=result['id']
+        )

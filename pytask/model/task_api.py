@@ -50,3 +50,7 @@ class TaskAPI:
     def get_tasks(self, list_id):
         self._connect()
         return self.service.tasks().list(tasklist=list_id).execute()
+
+    def create_tasklist(self, tasklist):
+        self._connect()
+        return self.service.tasklists().insert(body=tasklist).execute()
