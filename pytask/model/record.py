@@ -2,7 +2,6 @@ from .task_api import TaskAPI
 
 
 _task_api = TaskAPI()
-_task_api.connect()
 
 
 class Record:

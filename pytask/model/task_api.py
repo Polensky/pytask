@@ -22,8 +22,11 @@ class TaskAPI:
                 redirect_uri='http://google.com'
         )
         self.storage = Storage('a_storage')
+        self.connected = False
 
-    def connect(self):
+    def _connect(self):
+        if self.connected:
+            return
         self.credentials = self.storage.get()
 
         if not os.path.isfile('a_storage'):
@@ -32,7 +35,7 @@ class TaskAPI:
             self._authenticate()
 
         self.service = build('tasks', 'v1', credentials=self.credentials)
-        return self.service
+        self.connected = True
 
     def _authenticate(self):
         parser = argparse.ArgumentParser(parents=[tools.argparser])
@@ -41,7 +44,9 @@ class TaskAPI:
         self.storage.put(self.credentials)
 
     def get_tasklists(self):
+        self._connect()
         return self.service.tasklists().list().execute()['items']
 
     def get_tasks(self, list_id):
+        self._connect()
         return self.service.tasks().list(tasklist=list_id).execute()
