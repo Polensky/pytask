@@ -15,3 +15,8 @@ class Task(Displayable, Record):
     @staticmethod
     def from_dict(dictionary):
         return Task(**dictionary)
+
+    @staticmethod
+    def create(title='', tasklist=0):
+        result = Task.api().create_task(tasklist, {"title": title})
+        return Task.from_dict(result)
