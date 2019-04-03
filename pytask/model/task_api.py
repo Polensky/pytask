@@ -5,14 +5,18 @@ from apiclient.discovery import build
 import argparse
 import json
 import os
-from .tasklist import TaskList
-from .task import Task
 
 SCOPE = 'https://www.googleapis.com/auth/tasks'
 
 
 class TaskAPI:
     def __init__(self):
+        self.storage = Storage('a_storage')
+        self.connected = False
+
+    def _connect(self):
+        if self.connected:
+            return
         cwd = os.path.dirname(__file__)
         self.client_id = json.loads(open(cwd + '/client_id.json').read())
         self.cl_id = self.client_id['installed']['client_id']
@@ -23,9 +27,6 @@ class TaskAPI:
                 scope='https://www.googleapis.com/auth/tasks',
                 redirect_uri='http://google.com'
         )
-        self.storage = Storage('a_storage')
-
-    def connect(self):
         self.credentials = self.storage.get()
 
         if not os.path.isfile('a_storage'):
@@ -34,7 +35,7 @@ class TaskAPI:
             self._authenticate()
 
         self.service = build('tasks', 'v1', credentials=self.credentials)
-        return self.service
+        self.connected = True
 
     def _authenticate(self):
         parser = argparse.ArgumentParser(parents=[tools.argparser])
@@ -42,20 +43,10 @@ class TaskAPI:
         self.credentials = tools.run_flow(self.flow, self.storage, flags)
         self.storage.put(self.credentials)
 
-    def get_taskslists(self):
-        task_lists = []
-        for tasklist in self.service.tasklists().list().execute()['items']:
-            task_lists.append(
-                TaskList(
-                    title=tasklist['title'],
-                    id=tasklist['id'],
-                    tasks=self.get_tasks(tasklist['id']),
-                )
-            )
-        return task_lists
+    def get_tasklists(self):
+        self._connect()
+        return self.service.tasklists().list().execute()['items']
 
     def get_tasks(self, list_id):
-        tasks = self.service.tasks().list(tasklist=list_id).execute()
-        if 'items' not in tasks:
-            return
-        return [Task.from_dict(task) for task in tasks['items']]
+        self._connect()
+        return self.service.tasks().list(tasklist=list_id).execute()

@@ -1,13 +1,11 @@
 from .displayable import Displayable
+from .record import Record
 
 
-class Task(Displayable):
-    def __init__(self, title, id, status,
-                 position=None,
-                 completed=None,
-                 updated=None,
-                 **kwargs, ):
-        super().__init__(title=title)
+class Task(Displayable, Record):
+    def __init__(self, title, id, status, position=None, completed=None, updated=None, **kwargs, ):
+        super().__init__(text=title)
+        self.title = title
         self.id = id
         self.status = status
         self.position = position

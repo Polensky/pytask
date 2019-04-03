@@ -1,14 +1,12 @@
 #!/usr/bin/env python
 
 from pytask.view import CurseView
-from pytask.model import TaskAPI
+from pytask.model import Tasklist
 
 
 class PyTaskApp:
     def __init__(self):
-        self.tsk_api = TaskAPI()
-        self.tsk_api.connect()
-        self.tasklists = self.tsk_api.get_taskslists()
+        self.tasklists = Tasklist.all()
         self.view = CurseView(self.tasklists)
 
     def application(self):

@@ -6,7 +6,7 @@ class Displayable:
     '''Classes which are displayable by ncurse.'''
     x: int = 0
     y: int = 0
-    title: str = ''
+    text: str = ''
 
     @property
     def pos(self):
@@ -17,4 +17,4 @@ class Displayable:
         self.y, self.x = position
 
     def addstr(self):
-        return self.y, self.x, self.title
+        return self.y, self.x, self.text
