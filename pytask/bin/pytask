@@ -25,9 +25,11 @@ class PyTaskApp:
                 self.view.switch_window(c)
             elif c == ord('o'):
                 task_name = self.input()
+                self.view.btext.text = ''
+                self.view.btext.redraw()
                 if len(task_name) > 0:
                     self.tasklists.append(Tasklist.create(title=task_name))
-                    self.view.switch_window(ord('k'))
+                    self.view.move(ord('k'))
 
     def input(self):
         text = ''
