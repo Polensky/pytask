@@ -11,6 +11,12 @@ SCOPE = 'https://www.googleapis.com/auth/tasks'
 
 class TaskAPI:
     def __init__(self):
+        self.storage = Storage('a_storage')
+        self.connected = False
+
+    def _connect(self):
+        if self.connected:
+            return
         cwd = os.path.dirname(__file__)
         self.client_id = json.loads(open(cwd + '/client_id.json').read())
         self.cl_id = self.client_id['installed']['client_id']
@@ -21,12 +27,6 @@ class TaskAPI:
                 scope='https://www.googleapis.com/auth/tasks',
                 redirect_uri='http://google.com'
         )
-        self.storage = Storage('a_storage')
-        self.connected = False
-
-    def _connect(self):
-        if self.connected:
-            return
         self.credentials = self.storage.get()
 
         if not os.path.isfile('a_storage'):
