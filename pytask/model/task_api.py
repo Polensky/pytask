@@ -5,8 +5,6 @@ from apiclient.discovery import build
 import argparse
 import json
 import os
-from .tasklist import TaskList
-from .task import Task
 
 SCOPE = 'https://www.googleapis.com/auth/tasks'
 
@@ -42,20 +40,8 @@ class TaskAPI:
         self.credentials = tools.run_flow(self.flow, self.storage, flags)
         self.storage.put(self.credentials)
 
-    def get_taskslists(self):
-        task_lists = []
-        for tasklist in self.service.tasklists().list().execute()['items']:
-            task_lists.append(
-                TaskList(
-                    title=tasklist['title'],
-                    id=tasklist['id'],
-                    tasks=self.get_tasks(tasklist['id']),
-                )
-            )
-        return task_lists
+    def get_tasklists(self):
+        return self.service.tasklists().list().execute()['items']
 
     def get_tasks(self, list_id):
-        tasks = self.service.tasks().list(tasklist=list_id).execute()
-        if 'items' not in tasks:
-            return
-        return [Task.from_dict(task) for task in tasks['items']]
+        return self.service.tasks().list(tasklist=list_id).execute()
