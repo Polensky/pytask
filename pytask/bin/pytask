@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
+import curses
+
 from pytask.view import CurseView
-from pytask.model import Tasklist
+from pytask.model import Tasklist, Task
 
 
 class PyTaskApp:
@@ -21,6 +23,47 @@ class PyTaskApp:
                 self.view.switch_window(c)
             elif c == ord('h') or c == ord('l'):
                 self.view.switch_window(c)
+            elif c == ord('o'):
+                text = self.input()
+                self.view.btext.text = ''
+                self.view.btext.redraw()
+                if len(text) > 0:
+                    if self.view.is_cursor_on_menu:
+                        self.tasklists.append(Tasklist.create(title=text))
+                    else:
+                        self.tasklists[self.view.menu.curs_pos].tasks.append(
+                            Task.create(
+                                tasklist=self.tasklists[self.view.menu.curs_pos].id,
+                                title=text
+                            )
+                        )
+                    self.view.move(ord('k'))
+
+    def input(self):
+        text = ''
+        model = 'Tasklist' if self.view.is_cursor_on_menu else 'Task'
+        self.view.btext.text = f'{model} title : {text}'
+        self.view.btext.redraw()
+        while True:
+            c = self.view.stdscr.getch()
+            if c == 10:
+                return text
+            elif c == 27:
+                return ''
+            elif c == 127:
+                if len(text) > 0:
+                    text = text[:-1]
+                    self.view.btext.redraw()
+                else:
+                    curses.beep()
+            elif ord('A') < c < ord('z'):
+                text += chr(c)
+                self.view.btext.text = f'{model} title : {text}'
+                self.view.btext.redraw()
+
+
+
+
 
 
 PyTaskApp().application()
