@@ -58,8 +58,8 @@ class TaskAPI:
         return self.service.tasks().list(tasklist=list_id).execute()
 
     @connected
-    def create_tasklist(self, tasklist):
-        return self.service.tasklists().insert(body=tasklist).execute()
+    def create_tasklist(self, body):
+        return self.service.tasklists().insert(body=body).execute()
 
     @connected
     def create_task(self, tasklist_id, body):
@@ -68,3 +68,7 @@ class TaskAPI:
     @connected
     def update_task(self, tasklist_id, task, body):
         return self.service.tasks().update(tasklist=tasklist_id, task=task, body=body).execute()
+
+    @connected
+    def update_tasklist(self, tasklist, body):
+        return self.service.tasklists().update(tasklist=tasklist, body=body).execute()

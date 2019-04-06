@@ -20,6 +20,11 @@ class Task(Displayable, Record):
         self.set_text(self.display_text)
         Task.api().update_task(tasklist, self.id, {'id': self.id, 'status': self.status})
 
+    def change_name(self, tasklist, name):
+        self.title = name
+        self.set_text(self.display_text)
+        Task.api().update_task(tasklist, self.id, {'id': self.id, 'title': self.title})
+
     @staticmethod
     def from_dict(dictionary):
         return Task(**dictionary)
