@@ -52,7 +52,7 @@ def test_addstr():
     task = Task(title_val, 'id', 'status')
     task.pos = y_val, x_val
 
-    assert task.addstr() == (y_val, x_val, title_val)
+    assert task.addstr() == (y_val, x_val, 'O ' + title_val)
 
 
 def test_from_dict():

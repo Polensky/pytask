@@ -23,21 +23,34 @@ class PyTaskApp:
                 self.view.switch_window(c)
             elif c == ord('h') or c == ord('l'):
                 self.view.switch_window(c)
+            elif c == ord('g'):
+                if not self.view.is_cursor_on_menu:
+                    self.task.switch_status(self.tasklist.id)
+                    self.view.content.redraw(self.view.content.curs_pos)
+
             elif c == ord('o'):
                 text = self.input()
                 self.view.btext.text = ''
                 self.view.btext.redraw()
                 if len(text) > 0:
                     if self.view.is_cursor_on_menu:
-                        self.tasklists.append(Tasklist.create(title=text))
+                        self.tasklist.append(Tasklist.create(title=text))
                     else:
-                        self.tasklists[self.view.menu.curs_pos].tasks.append(
+                        self.tasklist.append(
                             Task.create(
-                                tasklist=self.tasklists[self.view.menu.curs_pos].id,
+                                tasklist=self.tasklist.id,
                                 title=text
                             )
                         )
                     self.view.move(ord('k'))
+
+    @property
+    def tasklist(self):
+        return self.tasklists[self.view.menu.curs_pos]
+
+    @property
+    def task(self):
+        return self.tasklist[self.view.content.curs_pos]
 
     def input(self):
         text = ''
