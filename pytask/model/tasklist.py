@@ -38,3 +38,9 @@ class Tasklist(Displayable, Record):
             title=result['title'],
             id=result['id']
         )
+
+    def __getitem__(self, index):
+        return self.tasks[index]
+
+    def append(self, task):
+        return self.tasks.append(task)

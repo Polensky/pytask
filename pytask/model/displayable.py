@@ -18,3 +18,6 @@ class Displayable:
 
     def addstr(self):
         return self.y, self.x, self.text
+
+    def set_text(self, text):
+        self.text = text
