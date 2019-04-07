@@ -31,6 +31,9 @@ class Tasklist(Displayable, Record):
             self._tasks = [Task.from_dict(task) for task in tasks['items']]
         return self._tasks
 
+    def change_name(self, title):
+        return Tasklist.api().update_tasklist(self.id, {'id': self.id, 'title': title})
+
     @staticmethod
     def create(title=''):
         result = Tasklist.api().create_tasklist({"title": title})
