@@ -61,6 +61,10 @@ class CurseView:
 
         self.btext.redraw()
 
+    def resize(self):
+        self.content.resize()
+        self.menu.resize()
+
     def quit(self):
         curses.nocbreak()
         curses.echo()

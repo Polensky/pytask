@@ -23,6 +23,8 @@ class PyTaskApp:
                 self.view.switch_window(c)
             elif c == ord('h') or c == ord('l'):
                 self.view.switch_window(c)
+            elif c == curses.KEY_RESIZE:
+                self.view.resize()
             elif c == ord('o'):
                 text = self.input()
                 self.view.btext.text = ''
