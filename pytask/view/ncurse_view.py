@@ -36,21 +36,22 @@ class CurseView:
         if c == ord('k'):
             if self.is_cursor_on_menu:
                 self.menu.move_up()
-                self.content._elements = self.menu.current_element.tasks
-                self.content.curs_pos = 0
-                self.content.redraw(None)
+                self.reset_pos()
             else:
                 self.content.move_up()
         elif c == ord('j'):
             if self.is_cursor_on_menu:
                 self.menu.move_down()
-                self.content._elements = self.menu.current_element.tasks
-                self.content.curs_pos = 0
-                self.content.redraw(None)
+                self.reset_pos()
             else:
                 self.content.move_down()
 
         self.btext.redraw()
+
+    def reset_pos(self):
+        self.content._elements = self.menu.current_element.tasks
+        self.content.curs_pos = 0
+        self.content.redraw(None)
 
     def switch_window(self, c):
         self.is_cursor_on_menu = not self.is_cursor_on_menu

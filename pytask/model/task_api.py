@@ -43,18 +43,32 @@ class TaskAPI:
         self.credentials = tools.run_flow(self.flow, self.storage, flags)
         self.storage.put(self.credentials)
 
+    def connected(func):
+        def rtn(self, *args, **kwargs):
+            self._connect()
+            return func(self, *args, **kwargs)
+        return rtn
+
+    @connected
     def get_tasklists(self):
-        self._connect()
         return self.service.tasklists().list().execute()['items']
 
+    @connected
     def get_tasks(self, list_id):
-        self._connect()
         return self.service.tasks().list(tasklist=list_id).execute()
 
-    def create_tasklist(self, tasklist):
-        self._connect()
-        return self.service.tasklists().insert(body=tasklist).execute()
+    @connected
+    def create_tasklist(self, body):
+        return self.service.tasklists().insert(body=body).execute()
 
-    def create_task(self, tasklist, task):
-        self._connect()
-        return self.service.tasks().insert(tasklist=tasklist, body=task).execute()
+    @connected
+    def create_task(self, tasklist_id, body):
+        return self.service.tasks().insert(tasklist=tasklist_id, body=body).execute()
+
+    @connected
+    def update_task(self, tasklist_id, task, body):
+        return self.service.tasks().update(tasklist=tasklist_id, task=task, body=body).execute()
+
+    @connected
+    def update_tasklist(self, tasklist, body):
+        return self.service.tasklists().update(tasklist=tasklist, body=body).execute()
